@@ -1,0 +1,3 @@
+# Python requirements for using the python-app template. 
+
+cookiecutter>=1.7.3
