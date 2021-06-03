@@ -1,7 +1,8 @@
 {
     "project_slug": "idea-plugin",
     "project_url": "",
-    "plugin_name": "{{ cookiecutter.project_slug }}",
+    "plugin_name": "IDEA Plugin",
+    "package_name": "idea.plugin",
     "author_name": "",
     "author_email": "",
     "project_version": "0.1.0-alpha.0"
