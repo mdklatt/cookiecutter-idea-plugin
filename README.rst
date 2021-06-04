@@ -40,6 +40,7 @@ Create a new project directly from the template on `GitHub`_:
     :alt: Travis CI build status
     :target: `travis`_
 .. _Cookiecutter: https://cookiecutter.readthedocs.org
+.. _JetBrains IDEA plugin: https://github.com/JetBrains/intellij-platform-plugin-template
 .. _IntelliJ Platform Plugin Template: https://plugins.jetbrains.com/docs/intellij/welcome.html
 .. _Kotlin: https://kotlinlang.org
 .. _Gradle: https://gradle.org
