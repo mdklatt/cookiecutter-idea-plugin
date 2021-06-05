@@ -21,13 +21,14 @@ def _src_dir():
     package = "{{ cookiecutter.package_name }}"
     if not package:
         return
-    root = Path("src", "main", "kotlin")
-    items = list(root.iterdir())
-    leaf = root.joinpath(*package.split("."))
-    leaf.mkdir(parents=True)
-    for item in items:
-        # Move items into package directory.
-        item.rename(leaf / item.name)
+    for module in Path("src").iterdir():
+        root = Path(module, "kotlin")
+        items = list(root.iterdir())
+        leaf = root.joinpath(*package.split("."))
+        leaf.mkdir(parents=True)
+        for item in items:
+            # Move items into package directory.
+            item.rename(leaf / item.name)
     return
 
 

@@ -8,6 +8,7 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <configurationType implementation="{{ cookiecutter.package_name }}.configurations.HelloConfigurationType"/>
         <applicationService serviceImplementation="{{ cookiecutter.package_name }}.services.MyApplicationService"/>
         <projectService serviceImplementation="{{ cookiecutter.package_name }}.services.MyProjectService"/>
     </extensions>
