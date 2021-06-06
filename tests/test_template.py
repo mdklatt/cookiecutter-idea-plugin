@@ -10,6 +10,7 @@ from shlex import split
 from subprocess import check_call
 from tempfile import TemporaryDirectory
 
+from cookiecutter.config import get_user_config
 from cookiecutter.main import cookiecutter
 
 
@@ -18,13 +19,19 @@ def main() -> int:
     
     """
     template = Path(__file__).resolve().parents[1]
-    defaults = loads(template.joinpath("cookiecutter.json").read_text())
+    context = loads(template.joinpath("cookiecutter.json").read_text())
     with TemporaryDirectory() as tmpdir:
         tmpdir = Path(tmpdir)
+        kwargs = {
+            "extra_context": {"plugin_name": "Test", "author_name": "Author"},
+            "no_input": True,
+            "output_dir": tmpdir,
+        }
+        cookiecutter(str(template), **kwargs)
+        cwd = tmpdir / context["project_slug"]
         home = tmpdir / "home"
-        cookiecutter(str(template), no_input=True, output_dir=tmpdir)
-        cwd = tmpdir / defaults["project_slug"]
-        gradle = f"./gradlew --gradle-user-home={home}/.gradle check"
+        for task in "check", "runPluginVerifier":
+            gradle = f"./gradlew --gradle-user-home={home}/.gradle {task}"
         check_call(split(gradle), cwd=cwd)
     return 0
     
