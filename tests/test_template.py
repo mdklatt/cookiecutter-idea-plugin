@@ -10,7 +10,6 @@ from shlex import split
 from subprocess import check_call
 from tempfile import TemporaryDirectory
 
-from cookiecutter.config import get_user_config
 from cookiecutter.main import cookiecutter
 
 
