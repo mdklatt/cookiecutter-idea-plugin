@@ -1,21 +1,15 @@
-# Ignore Python build artifacts.
-
-*.egg-info/
-*.pyc
-*.pyo
-
-
-# Ignore pyenv files.
+# Ignore Python environments.
 
 .python-version
-
-
-# Ignore virtualenv environments.
-
 .venv*/
 
 
-# Ignore settings for various IDEs.
+# Ignore Make artifacts.
+
+**/.make-update
+
+
+# Ignore IDE settings.
 
 .idea/
 .project/
