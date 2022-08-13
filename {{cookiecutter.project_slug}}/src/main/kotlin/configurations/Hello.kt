@@ -1,5 +1,5 @@
 /**
- * Sample implementation of a Run Configuration that calls an external process.
+ * Sample implementation of a run configuration that calls an external process.
  */
 package {{ cookiecutter.package_name }}.configurations
 
@@ -10,24 +10,25 @@ import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.process.ProcessTerminatedListener
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.icons.AllIcons
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.JDOMExternalizerUtil
-import com.intellij.ui.layout.panel
-import com.intellij.util.getOrCreate
-import org.jdom.Element
-import java.util.*
+import com.intellij.openapi.ui.DialogPanel
+import com.intellij.ui.dsl.builder.bindText
+import com.intellij.ui.dsl.builder.panel
 import javax.swing.JComponent
-import javax.swing.JTextField
 
+
+/**
+ * Hello run configuration type.
+ *
+ * @see <a href="https://plugins.jetbrains.com/docs/intellij/run-configuration-management.html?from=jetbrains.org#configuration-type">Configuration Type</a>
+ */
 class HelloConfigurationType : ConfigurationTypeBase(
-    HelloConfigurationType::class.java.simpleName,
+    "HelloConfigurationType",
     "Hello",
     "Display a greeting",
     AllIcons.General.GearPlain
 ) {
-
     init {
         addFactory(HelloConfigurationFactory(this))
     }
@@ -54,69 +55,41 @@ class HelloConfigurationFactory internal constructor(type: ConfigurationType) : 
      * @return: unique ID
      */
     override fun getId(): String = this::class.java.simpleName
+
+    /**
+     * Return the type of the options storage class.
+     *
+     * @return: options class type
+     */
+    override fun getOptionsClass() = HelloRunConfiguration.Options::class.java
 }
 
 /**
- * Run Configuration for printing "Hello, World!" to the console.
+ * Run configuration for printing "Hello, World!" to the console.
  *
  * @see <a href="https://www.jetbrains.org/intellij/sdk/docs/basics/run_configurations/run_configuration_management.html#run-configuration">Run Configuration</a>
  */
 class HelloRunConfiguration internal constructor(project: Project, factory: ConfigurationFactory, name: String) :
-    RunConfigurationBase<RunProfileState>(project, factory, name) {
-
+    RunConfigurationBase<HelloRunConfiguration.Options>(project, factory, name) {
+ 
     /**
-     * HelloRunConfiguration settings.
+     * Persistent run configuration options.
      *
-     * Each configuration instance will have a unique `id` attribute that can be
-     * used to persist external data, e.g. PasswordSafe credentials.
+     * @see <a href="https://plugins.jetbrains.com/docs/intellij/run-configurations.html#implement-a-configurationfactory">Run Configurations Tutorial</a>
      */
-    class Settings {
-
-        internal val xmlTagName = "hello"
-
-        private val logger = Logger.getInstance(this::class.java)  // runtime class resolution
-        private var id: UUID? = null
-
-        var name = ""
-            get() = field.ifEmpty { "World" }
-
-        /**
-         * Load persistent settings.
-         *
-         * @param element: input XML element
-         */
-        internal fun load(element: Element) {
-            element.getOrCreate(xmlTagName).let {
-                val str = JDOMExternalizerUtil.readField(it, "id", "")
-                id = if (str.isEmpty()) UUID.randomUUID() else UUID.fromString(str)
-                logger.debug("loading settings for configuration $id")
-                name = JDOMExternalizerUtil.readField(it, "name", "")
-            }
-            return
-        }
-
-        /**
-         * Save persistent settings.
-         *
-         * @param element: output XML element
-         */
-        internal fun save(element: Element) {
-            val default = element.getAttributeValue("default")?.toBoolean() ?: false
-            element.getOrCreate(xmlTagName).let {
-                if (!default) {
-                    id = id ?: UUID.randomUUID()
-                    logger.debug("saving settings for configuration $id")
-                    JDOMExternalizerUtil.writeField(it, "id", id.toString())
-                } else {
-                    logger.debug("saving settings for default configuration")
-                }
-                JDOMExternalizerUtil.writeField(it, "name", name)
-            }
-            return
-        }
+    class Options : RunConfigurationOptions() {
+        internal var subject by string()
+    }
+ 
+    override fun getOptions(): Options {
+        return super.getOptions() as Options
     }
 
-    var settings = Settings()
+    internal var subject: String
+        get() = options.subject ?: "World"
+        set(value) {
+            options.subject = value
+        }
 
     /**
      * Returns the UI control for editing the run configuration settings. If additional control over validation is required, the object
@@ -137,32 +110,15 @@ class HelloRunConfiguration internal constructor(project: Project, factory: Conf
      */
     override fun getState(executor: Executor, environment: ExecutionEnvironment) =
         HelloCommandLineState(this, environment)
-
-    /**
-     * Read settings from an XML element.
-     *
-     * @param element: input element.
-     */
-    override fun readExternal(element: Element) {
-        super.readExternal(element)
-        settings.load(element)
-        return
-    }
-
-    /**
-     * Write settings to an XML element.
-     *
-     * @param element: output element.
-     */
-    override fun writeExternal(element: Element) {
-        super.writeExternal(element)
-        settings.save(element)
-        return
-    }
 }
 
+
 /**
- * TODO
+ * Command line process for executing the run configuration.
+ *
+ * @param config: run configuration
+ * @param environment: execution environment
+ * @see <a href="https://plugins.jetbrains.com/docs/intellij/run-configurations.html#implement-a-run-configuration">Run Configurations Tutorial</a>
  */
 class HelloCommandLineState internal constructor(private val config: HelloRunConfiguration, environment: ExecutionEnvironment) :
     CommandLineState(environment) {
@@ -177,8 +133,7 @@ class HelloCommandLineState internal constructor(private val config: HelloRunCon
      * @see com.intellij.execution.process.OSProcessHandler
      */
     override fun startProcess(): ProcessHandler {
-        val settings = config.settings
-        val command = GeneralCommandLine("echo", "Hello, ${settings.name}!")
+        val command = GeneralCommandLine("echo", "Hello, ${config.subject}!")
         return KillableColoredProcessHandler(command).also {
             ProcessTerminatedListener.attach(it, environment.project)
         }
@@ -193,7 +148,7 @@ class HelloCommandLineState internal constructor(private val config: HelloRunCon
  */
 class HelloSettingsEditor internal constructor() : SettingsEditor<HelloRunConfiguration>() {
 
-    var name = JTextField("")
+    internal var subject = ""
 
     /**
      * Create the widget for this editor.
@@ -201,35 +156,36 @@ class HelloSettingsEditor internal constructor() : SettingsEditor<HelloRunConfig
      * @return UI widget
      */
     override fun createEditor(): JComponent {
-        // https://www.jetbrains.org/intellij/sdk/docs/user_interface_components/kotlin_ui_dsl.html
-        return panel {
-            row("Name:") { name() }
+       // https://plugins.jetbrains.com/docs/intellij/kotlin-ui-dsl-version-2.html
+       return panel {
+            row("Subject:") { textField().bindText(::subject) }
         }
     }
 
     /**
-     * Reset editor fields from the configuration state.
+     * Reset editor fields from the configuration settings.
      *
      * @param config: run configuration
      */
     override fun resetEditorFrom(config: HelloRunConfiguration) {
+        // Update bound properties from config then reset UI.
         config.let {
-            name.text = it.settings.name
+            subject = it.subject
         }
-        return
+        (this.component as DialogPanel).reset()
+       return
     }
 
     /**
-     * Apply editor fields to the configuration state.
+     * Apply editor fields to the configuration settings.
      *
      * @param config: run configuration
      */
     override fun applyEditorTo(config: HelloRunConfiguration) {
-        // This apparently gets called for every key press, so performance is
-        // critical.
+        // Apply UI to bound properties then update config.
+        (this.component as DialogPanel).apply()
         config.let {
-            it.settings = HelloRunConfiguration.Settings()
-            it.settings.name = name.text
+            it.subject = subject
         }
         return
     }

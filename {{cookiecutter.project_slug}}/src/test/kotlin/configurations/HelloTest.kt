@@ -6,13 +6,67 @@ package {{ cookiecutter.package_name }}.configurations
 import com.intellij.openapi.util.JDOMExternalizerUtil
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import com.intellij.util.getOrCreate
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 import org.jdom.Element
+import org.junit.jupiter.api.Test
+
+
+/**
+ * Unit tests for the HelloConfigurationType class.
+ */
+class HelloConfigurationTypeTest {
+
+    private var type = HelloConfigurationType()
+
+    /**
+     * Test the id property.
+     */
+    @Test
+    fun testId() {
+        assertTrue(type.id.isNotBlank())
+    }
+
+    /**
+     * Test the icon property.
+     */
+    @Test
+    fun testIcon() {
+        assertNotNull(type.icon)
+    }
+
+    /**
+     * Test the configurationTypeDescription property.
+     */
+    @Test
+    fun testConfigurationTypeDescription() {
+        assertTrue(type.configurationTypeDescription.isNotBlank())
+    }
+
+    /**
+     * Test the displayName property.
+     */
+    @Test
+    fun testDisplayName() {
+        assertTrue(type.displayName.isNotBlank())
+    }
+
+    /**
+     * Test the configurationFactories property.
+     */
+    @Test
+    fun testConfigurationFactories() {
+        type.configurationFactories.isNotEmpty()
+    }
+}
+
 
 // The IDEA platform tests use JUnit3, so test class method names are used to 
 // determine behavior instead of annotations. Notably, test classes are *not* 
 // constructed before each test, so setUp() methods should be used for 
 // per-test initialization where necessary. Also, test functions must be named 
 // `testXXX` or they will not be found during automatic discovery.
+
 
 /**
  * Unit tests for the HelloConfigurationFactory class.
@@ -49,44 +103,44 @@ class HelloConfigurationFactoryTest : BasePlatformTestCase() {
  */
 class HelloRunConfigurationTest : BasePlatformTestCase() {
 
+    private lateinit var factory: HelloConfigurationFactory
     private lateinit var config: HelloRunConfiguration
-    private lateinit var element: Element
 
     /**
      * Per-test initialization.
      */
     override fun setUp() {
         super.setUp()
-        val factory = HelloConfigurationFactory(HelloConfigurationType())
+        factory = HelloConfigurationFactory(HelloConfigurationType())
         config = HelloRunConfiguration(project, factory, "Hello Test")
-        config.settings.apply {
-            name = "abc"
-        }
-        element = Element("configuration")
+        return
     }
 
     /**
      * Test the constructor.
      */
     fun testConstructor() {
-        assertEquals("Hello Test", config.name)
+        assertEquals("World", config.subject)
+        return
     }
 
     /**
      * Test round-trip write/read of settings.
      */
     fun testPersistence() {
-        config.writeExternal(element)
-        element.getOrCreate(config.settings.xmlTagName).let {
-            assertTrue(JDOMExternalizerUtil.readField(it, "id", "").isNotEmpty())
-            assertEquals("abc", JDOMExternalizerUtil.readField(it, "name", ""))
+        val element = Element("configuration")
+        config.let {
+            it.subject = "Foo"
+            it.writeExternal(element)
         }
-        HelloRunConfiguration.Settings().apply {
-            load(element)
-            assertEquals("abc", name)
+        HelloRunConfiguration(project, factory, "Persistence Test").let {
+            it.readExternal(element)
+            assertEquals(config.subject, it.subject)
         }
+        return
     }
 }
+
 
 /**
  * Unit tests for the HelloSettingsEditor class.
@@ -97,7 +151,8 @@ class HelloSettingsEditorTest : BasePlatformTestCase() {
      */
     fun testConstructor() {
         HelloSettingsEditor().apply {
-            assertTrue(name.text.isEmpty())
+            assertTrue(subject.isEmpty())
         }
+        return
     }
 }
