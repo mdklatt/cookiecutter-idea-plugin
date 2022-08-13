@@ -15,7 +15,7 @@ Project Features
 - `Kotlin`_
 - `Gradle`_ builds
 - `JUnit`_ test suite
-- IDEA platform 2020.3+ (Java 11)
+- IDEA platform 2022.1+ (Java 11)
 
 
 =====

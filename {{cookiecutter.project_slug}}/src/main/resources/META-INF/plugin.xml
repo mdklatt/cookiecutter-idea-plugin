@@ -1,20 +1,24 @@
 <idea-plugin>
-    <id>{{ cookiecutter.package_name }}</id>
-    <name>{{ cookiecutter.plugin_name }}</name>
-    <vendor email="{{ cookiecutter.author_email }}" url="{{ cookiecutter.project_url }}">{{ cookiecutter.author_name }}</vendor>
+  <id>{{ cookiecutter.package_name }}</id>
+  <name>{{ cookiecutter.plugin_name }}</name>
+  <vendor email="{{ cookiecutter.author_email }}"
+          url="{{ cookiecutter.project_url }}">{{ cookiecutter.author_name }}</vendor>
 
-    <!-- Product and plugin compatibility requirements -->
-    <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
-    <depends>com.intellij.modules.platform</depends>
+  <!-- The <version>, <description>, <idea-version>, and <changes-notes>
+       elements are inserted on build by the Gradle build script. -->
 
-    <extensions defaultExtensionNs="com.intellij">
-        <configurationType implementation="{{ cookiecutter.package_name }}.configurations.HelloConfigurationType"/>
-        <applicationService serviceImplementation="{{ cookiecutter.package_name }}.services.MyApplicationService"/>
-        <projectService serviceImplementation="{{ cookiecutter.package_name }}.services.MyProjectService"/>
-    </extensions>
+  <!-- See https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <depends>com.intellij.modules.platform</depends>
 
-    <applicationListeners>
-        <listener class="{{ cookiecutter.package_name }}.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+  <extensions defaultExtensionNs="com.intellij">
+    <configurationType implementation="{{ cookiecutter.package_name }}.configurations.HelloConfigurationType"/>
+    <applicationService serviceImplementation="{{ cookiecutter.package_name }}.services.MyApplicationService"/>
+    <projectService serviceImplementation="{{ cookiecutter.package_name }}.services.MyProjectService"/>
+  </extensions>
+
+  <applicationListeners>
+    <listener class="{{ cookiecutter.package_name }}.listeners.MyProjectManagerListener"
+              topic="com.intellij.openapi.project.ProjectManagerListener"/>
+  </applicationListeners>
 </idea-plugin>

@@ -1,59 +1,61 @@
-import org.jetbrains.changelog.closure
+// Adapted from <https://github.com/JetBrains/intellij-platform-plugin-template>.
+
+import org.jetbrains.changelog.date
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun properties(key: String) = project.findProperty(key).toString()
 
-plugins {
-    // Kotlin support
-    kotlin("jvm") version "1.5.10"
-    // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
-    id("org.jetbrains.intellij") version "1.0"
-    // gradle-changelog-plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
-    id("org.jetbrains.changelog") version "1.1.2"
-}
-
-group = properties("pluginGroup")
 version = properties("pluginVersion")
 
+plugins {
+    kotlin("jvm") version "1.7.0"
+    id("org.jetbrains.intellij") version "1.8.0"
+    id("org.jetbrains.changelog") version "1.3.1"
+}
+
 // Configure project's dependencies
+
 repositories {
     mavenCentral()
 }
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
-    testImplementation("org.junit.vintage:junit-vintage-engine:5.7.0")
-}
+    testRuntimeOnly(kotlin("test"))
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.9.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.9.0")}
 
-
-// Configure gradle-intellij-plugin plugin.
-// Read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
-    pluginName.set(properties("pluginName"))
+    // <https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html>
+    pluginName.set(properties("pluginZipName"))
     version.set(properties("platformVersion"))
     type.set(properties("platformType"))
     downloadSources.set(properties("platformDownloadSources").toBoolean())
     updateSinceUntilBuild.set(true)
-
-    // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
 }
 
-// Configure gradle-changelog-plugin plugin.
-// Read more: https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
-    version = properties("pluginVersion")
-    groups = emptyList()
+    // <https://github.com/JetBrains/gradle-changelog-plugin>
+    path.set("${project.projectDir}/CHANGELOG.md")
+    header.set(provider { "[${version.get()}] - ${date()}" })
+    itemPrefix.set("-")
+    unreleasedTerm.set("[Unreleased]")
+    groups.set(listOf("Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"))
 }
 
 tasks {
-    // Set the compatibility versions to 1.8
-    withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+    properties("javaVersion").let {
+        withType<KotlinCompile> {
+            kotlinOptions.jvmTarget = it
+        }
+    }
+
+    wrapper {
+        gradleVersion = properties("gradleVersion")
     }
 
     patchPluginXml {
-        version.set(properties("pluginVersion"))
         sinceBuild.set(properties("pluginSinceBuild"))
         untilBuild.set(properties("pluginUntilBuild"))
 
@@ -71,7 +73,8 @@ tasks {
         )
 
         // Get the latest available change notes from the changelog file
-        changeNotes.set(provider { changelog.getLatest().toHTML() })
+        changeNotes.set(changelog.getLatest().toHTML())
+
     }
 
     runPluginVerifier {
