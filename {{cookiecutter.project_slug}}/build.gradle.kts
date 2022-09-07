@@ -10,7 +10,7 @@ version = properties("pluginVersion")
 
 plugins {
     kotlin("jvm") version("{{ cookiecutter.kotlin_version }}")
-    id("org.jetbrains.intellij") version "1.8.0"
+    id("org.jetbrains.intellij") version "1.9.0"
     id("org.jetbrains.changelog") version "1.3.1"
 }
 
