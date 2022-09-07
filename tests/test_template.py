@@ -22,7 +22,12 @@ def main() -> int:
     with TemporaryDirectory() as tmpdir:
         tmpdir = Path(tmpdir)
         kwargs = {
-            "extra_context": {"plugin_name": "Test", "author_name": "Author"},
+            "extra_context": {
+                "plugin_name": "Test",
+                "author_name": "Author",
+                "package_name": "test.template",
+                "compact_dirs": "no",  # test directory expansion
+            },
             "no_input": True,
             "output_dir": tmpdir,
         }
