@@ -9,7 +9,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 version = properties("pluginVersion")
 
 plugins {
-    kotlin("jvm") version "1.7.0"
+    kotlin("jvm") version("{{ cookiecutter.kotlin_version }}")
     id("org.jetbrains.intellij") version "1.8.0"
     id("org.jetbrains.changelog") version "1.3.1"
 }
@@ -20,6 +20,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     testImplementation(kotlin("test"))
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
