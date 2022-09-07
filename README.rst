@@ -17,6 +17,10 @@ Project Features
 - `JUnit`_ test suite
 - IDEA platform 2022.1+ (Java 11)
 
+The ``compact_dirs`` template parameter controls whether or not to use a
+compact `Kotlin directory structure`_ or a traditional Java structure that
+starts at the package root.
+
 
 =====
 Usage
@@ -46,3 +50,4 @@ Create a new project directly from the template on `GitHub`_:
 .. _JUnit: https://junit.org
 .. _GitHub: https://github.com/mdklatt/cookiecutter-idea-plugin
 .. _Gradle Wrapper: https://docs.gradle.org/current/userguide/gradle_wrapper.html
+.. _Kotlin directory structure: https://kotlinlang.org/docs/coding-conventions.html#directory-structure
