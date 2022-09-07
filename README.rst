@@ -4,16 +4,16 @@ IDEA Plugin Project Template
 
 |badge|
 
-This is a `Cookiecutter`_ template for creating a `JetBrains IDEA plugin`_ 
-project. The template is adapted from the `IntelliJ Platform Plugin Template`_.
-
+This is a `Cookiecutter`_ template for creating a `JetBrains IDEA plugin`_
+project using `Kotlin`_. The template is adapted from the
+`IntelliJ Platform Plugin Template`_.
 
 ================
 Project Features
 ================
 
 - `Kotlin`_
-- `Gradle`_ builds
+- `Gradle`_ builds using a self-contained `Gradle Wrapper`_.
 - `JUnit`_ test suite
 - IDEA platform 2022.1+ (Java 11)
 
@@ -26,7 +26,7 @@ Install Python requirements for using the template:
 
 .. code-block:: console
 
-  $ python -m pip install --user --requirement=requirements.txt
+  $ python -m pip install --requirement=requirements-dev.txt
 
 
 Create a new project directly from the template on `GitHub`_:
@@ -45,3 +45,4 @@ Create a new project directly from the template on `GitHub`_:
 .. _Gradle: https://gradle.org
 .. _JUnit: https://junit.org
 .. _GitHub: https://github.com/mdklatt/cookiecutter-idea-plugin
+.. _Gradle Wrapper: https://docs.gradle.org/current/userguide/gradle_wrapper.html
