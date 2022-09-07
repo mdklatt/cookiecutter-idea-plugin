@@ -19,12 +19,15 @@ plugins {
 repositories {
     mavenCentral()
 }
+
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     testImplementation(kotlin("test"))
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.9.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.9.0")}
+    testImplementation(platform("org.junit:junit-bom:5.9.0"))
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+}
 
 intellij {
     // <https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html>
