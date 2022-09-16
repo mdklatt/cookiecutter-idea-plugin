@@ -40,8 +40,10 @@ Create a new project directly from the template on `GitHub`_:
   $ cookiecutter gh:mdklatt/cookiecutter-idea-plugin
 
 
-.. |badge| image:: https://github.com/mdklatt/idea-remotepython-plugin/actions/workflows/build.yml/badge.svg
-    :alt: Travis CI build status
+.. |badge| image:: https://github.com/mdklatt/cookiecutter-idea-plugin/actions/workflows/test.yml/badge.svg
+    :alt: GitHub Actions status
+    :target: `GitHub Actions`_
+.. _GitHub Actions: https://github.com/mdklatt/cookiecutter-idea-plugin/actions/workflows/test.yml
 .. _Cookiecutter: https://cookiecutter.readthedocs.org
 .. _JetBrains IDEA plugin: https://github.com/JetBrains/intellij-platform-plugin-template
 .. _IntelliJ Platform Plugin Template: https://plugins.jetbrains.com/docs/intellij/welcome.html
