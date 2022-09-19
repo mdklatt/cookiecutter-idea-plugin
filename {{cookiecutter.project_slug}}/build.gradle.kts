@@ -6,19 +6,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun properties(key: String) = project.findProperty(key).toString()
 
-version = properties("pluginVersion")
-
 plugins {
     kotlin("jvm") version("{{ cookiecutter.kotlin_version }}")
     id("org.jetbrains.intellij") version "1.9.0"
     id("org.jetbrains.changelog") version "1.3.1"
 }
 
-// Configure project's dependencies
 
 repositories {
     mavenCentral()
 }
+
 
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
@@ -29,37 +27,21 @@ dependencies {
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
 }
 
-intellij {
-    // <https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html>
-    pluginName.set(properties("pluginZipName"))
-    version.set(properties("platformVersion"))
-    type.set(properties("platformType"))
-    downloadSources.set(properties("platformDownloadSources").toBoolean())
-    updateSinceUntilBuild.set(true)
-    plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
-}
-
-changelog {
-    // <https://github.com/JetBrains/gradle-changelog-plugin>
-    path.set("${project.projectDir}/CHANGELOG.md")
-    header.set(provider { "[${version.get()}] - ${date()}" })
-    itemPrefix.set("-")
-    unreleasedTerm.set("[Unreleased]")
-    groups.set(listOf("Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"))
-}
 
 tasks {
-    properties("javaVersion").let {
-        withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = it
+
+    wrapper {
+        gradleVersion = "{{ cookiecutter.gradle_version }}"
+    }
+
+    withType<KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "11"  // required since 2020.3
         }
     }
 
-    wrapper {
-        gradleVersion = properties("gradleVersion")
-    }
-
     patchPluginXml {
+        // https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html#tasks-patchpluginxml
         sinceBuild.set(properties("pluginSinceBuild"))
         untilBuild.set(properties("pluginUntilBuild"))
 
@@ -82,7 +64,16 @@ tasks {
     }
 
     runPluginVerifier {
-        ideVersions.set(properties("pluginVerifierIdeVersions").split(',').map(String::trim).filter(String::isNotEmpty))
+        // https://github.com/JetBrains/intellij-plugin-verifier
+        ideVersions.set(properties("pluginVerifyVersions").split(',').map(String::trim).filter(String::isNotEmpty))
+    }
+
+    runIdeForUiTests {
+        // <https://github.com/JetBrains/intellij-ui-test-robot>
+        systemProperty("robot-server.port", "8082")
+        systemProperty("ide.mac.message.dialogs.as.sheets", "false")
+        systemProperty("jb.privacy.policy.text", "<!--999.999-->")
+        systemProperty("jb.consents.confirmation.enabled", "false")
     }
 
     publishPlugin {
@@ -94,7 +85,25 @@ tasks {
         channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
     }
 
-    test {
+	test {
         useJUnitPlatform()
     }
+}
+
+
+intellij {
+    // <https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html>
+    version.set(properties("platformVersion"))
+    updateSinceUntilBuild.set(true)
+    downloadSources.set(true)
+}
+
+
+changelog {
+    // <https://github.com/JetBrains/gradle-changelog-plugin>
+    path.set("${project.projectDir}/CHANGELOG.md")
+    header.set(provider { "[${version.get()}] - ${date()}" })
+    itemPrefix.set("-")
+    unreleasedTerm.set("[Unreleased]")
+    groups.set(listOf("Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"))
 }

@@ -3,9 +3,10 @@
     "project_url": "",
     "plugin_name": "",
     "package_name": "idea.plugin",
+    "maven_group": "",
     "author_name": "",
     "author_email": "",
-    "project_version": "0.1.0.a0",
+    "project_version": "1.0.0.dev0",
     "kotlin_version": "1.7.10",
     "gradle_version": "7.5.1",
     "compact_dirs": "yes"
