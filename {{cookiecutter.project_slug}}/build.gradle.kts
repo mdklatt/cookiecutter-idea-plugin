@@ -55,7 +55,6 @@ tasks {
             File(projectDir, "README.md").readText().lines().run {
                 val start = "<!-- Plugin description -->"
                 val end = "<!-- Plugin description end -->"
-
                 if (!containsAll(listOf(start, end))) {
                     throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
                 }

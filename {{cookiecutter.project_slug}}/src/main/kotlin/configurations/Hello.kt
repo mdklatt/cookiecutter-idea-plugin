@@ -1,7 +1,7 @@
 /**
  * Sample implementation of a run configuration that calls an external process.
  */
-package {{ cookiecutter.package_name }}.configurations
+package {{ cookiecutter.plugin_package }}.configurations
 
 import com.intellij.execution.Executor
 import com.intellij.execution.configurations.*

@@ -1,4 +1,4 @@
-package {{ cookiecutter.package_name }}
+package {{ cookiecutter.plugin_package }}
 
 import com.intellij.AbstractBundle
 import org.jetbrains.annotations.NonNls

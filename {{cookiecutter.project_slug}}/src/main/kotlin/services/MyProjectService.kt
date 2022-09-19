@@ -1,7 +1,7 @@
-package {{ cookiecutter.package_name }}.services
+package {{ cookiecutter.plugin_package }}.services
 
 import com.intellij.openapi.project.Project
-import {{ cookiecutter.package_name }}.MyBundle
+import {{ cookiecutter.plugin_package }}.MyBundle
 
 class MyProjectService(project: Project) {
 

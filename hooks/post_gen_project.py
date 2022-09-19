@@ -28,7 +28,7 @@ def _expand_dirs():
     """
     # TODO: Use a bool for `compact_dirs` once Cookiecutter adds support.
     compact = "{{ cookiecutter.compact_dirs }}".lower()
-    package = "{{ cookiecutter.package_name }}"
+    package = "{{ cookiecutter.plugin_package }}"
     if not package or compact == "yes":
         # Use existing structure rooted at the top-level source directories.
         return

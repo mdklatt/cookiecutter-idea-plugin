@@ -1,6 +1,6 @@
-package {{ cookiecutter.package_name }}.services
+package {{ cookiecutter.plugin_package }}.services
 
-import {{ cookiecutter.package_name }}.MyBundle
+import {{ cookiecutter.plugin_package }}.MyBundle
 
 class MyApplicationService {
 

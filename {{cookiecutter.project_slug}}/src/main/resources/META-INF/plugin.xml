@@ -1,5 +1,5 @@
 <idea-plugin>
-  <id>{{ cookiecutter.package_name }}</id>
+  <id>{{ cookiecutter.plugin_package }}</id>
   <name>{{ cookiecutter.plugin_name }}</name>
   <vendor email="{{ cookiecutter.author_email }}"
           url="{{ cookiecutter.project_url }}">{{ cookiecutter.author_name }}</vendor>
@@ -12,13 +12,13 @@
   <depends>com.intellij.modules.platform</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <configurationType implementation="{{ cookiecutter.package_name }}.configurations.HelloConfigurationType"/>
-    <applicationService serviceImplementation="{{ cookiecutter.package_name }}.services.MyApplicationService"/>
-    <projectService serviceImplementation="{{ cookiecutter.package_name }}.services.MyProjectService"/>
+    <configurationType implementation="{{ cookiecutter.plugin_package }}.configurations.HelloConfigurationType"/>
+    <applicationService serviceImplementation="{{ cookiecutter.plugin_package }}.services.MyApplicationService"/>
+    <projectService serviceImplementation="{{ cookiecutter.plugin_package }}.services.MyProjectService"/>
   </extensions>
 
   <applicationListeners>
-    <listener class="{{ cookiecutter.package_name }}.listeners.MyProjectManagerListener"
+    <listener class="{{ cookiecutter.plugin_package }}.listeners.MyProjectManagerListener"
               topic="com.intellij.openapi.project.ProjectManagerListener"/>
   </applicationListeners>
 </idea-plugin>

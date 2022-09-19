@@ -1,7 +1,7 @@
 /**
  * Unit tests for the Hello module.
  */
-package {{ cookiecutter.package_name }}.configurations
+package {{ cookiecutter.plugin_package }}.configurations
 
 import com.intellij.openapi.util.JDOMExternalizerUtil
 import com.intellij.testFramework.fixtures.BasePlatformTestCase

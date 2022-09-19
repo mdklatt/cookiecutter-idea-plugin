@@ -4,13 +4,12 @@ A template project is created in a temporary directory, the plugin is built in
 a self-contained environment, and the plugin test suite is run.
 
 """
-from json import loads
+from cookiecutter.generate import generate_context
+from cookiecutter.main import cookiecutter
 from pathlib import Path
 from shlex import split
 from subprocess import check_call
 from tempfile import TemporaryDirectory
-
-from cookiecutter.main import cookiecutter
 
 
 def main() -> int:
@@ -18,14 +17,12 @@ def main() -> int:
     
     """
     template = Path(__file__).resolve().parents[1]
-    context = loads(template.joinpath("cookiecutter.json").read_text())
+    context = generate_context()["cookiecutter"]
     with TemporaryDirectory() as tmpdir:
         tmpdir = Path(tmpdir)
         kwargs = {
             "extra_context": {
-                "plugin_name": "Test",
                 "author_name": "Author",
-                "package_name": "test.template",
                 "junit_runner": "JUnit",
                 "compact_dirs": "no",  # test directory expansion
             },
@@ -33,7 +30,7 @@ def main() -> int:
             "output_dir": tmpdir,
         }
         cookiecutter(str(template), **kwargs)
-        cwd = tmpdir / context["project_slug"]
+        cwd = tmpdir / context["plugin_name"]
         home = tmpdir / "home"
         for task in "check", "runPluginVerifier":
             gradle = f"./gradlew --gradle-user-home={home}/.gradle {task}"
