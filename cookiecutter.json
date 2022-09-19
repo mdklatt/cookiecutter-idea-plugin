@@ -9,5 +9,7 @@
     "project_version": "1.0.0.dev0",
     "kotlin_version": "1.7.10",
     "gradle_version": "7.5.1",
-    "compact_dirs": "yes"
+    "junit_version": "5.9.0",
+    "junit_runner": ["Gradle", "JUnit"],
+    "compact_dirs": ["yes", "no"]
 }

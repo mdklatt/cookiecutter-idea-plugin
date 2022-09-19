@@ -4,7 +4,9 @@ import org.jetbrains.changelog.date
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+
 fun properties(key: String) = project.findProperty(key).toString()
+
 
 plugins {
     kotlin("jvm") version("{{ cookiecutter.kotlin_version }}")
@@ -21,10 +23,13 @@ repositories {
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     testImplementation(kotlin("test"))
-    testImplementation(platform("org.junit:junit-bom:5.9.0"))
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter")
+
+    // JUnit3 is required for running IDEA platform tests.
+    testImplementation(platform("org.junit:junit-bom:{{ cookiecutter.junit_version }}"))
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+    {% if cookiecutter.junit_runner == "JUnit" -%}
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    {%- endif %}
 }
 
 
@@ -86,7 +91,9 @@ tasks {
     }
 
 	test {
-        useJUnitPlatform()
+        {% if cookiecutter.junit_runner == "JUnit" -%}
+        useJUnitPlatform()  // use the JUnit test runner instead of Gradle
+        {%- endif %}
     }
 }
 

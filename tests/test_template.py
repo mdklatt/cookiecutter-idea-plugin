@@ -26,6 +26,7 @@ def main() -> int:
                 "plugin_name": "Test",
                 "author_name": "Author",
                 "package_name": "test.template",
+                "junit_runner": "JUnit",
                 "compact_dirs": "no",  # test directory expansion
             },
             "no_input": True,
