@@ -32,8 +32,7 @@ def main() -> int:
         cookiecutter(str(template), **kwargs)
         cwd = tmpdir / context["plugin_name"]
         home = tmpdir / "home"
-        for task in "check", "runPluginVerifier":
-            gradle = f"./gradlew --gradle-user-home={home}/.gradle {task}"
+        gradle = f"./gradlew --gradle-user-home={home}/.gradle check"
         check_call(split(gradle), cwd=cwd)
     return 0
     

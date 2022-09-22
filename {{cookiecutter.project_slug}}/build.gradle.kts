@@ -94,6 +94,13 @@ tasks {
         useJUnitPlatform()  // use the JUnit test runner instead of Gradle
         {%- endif %}
     }
+
+    check {
+        // Add plugin validation tasks to default checks.
+        dependsOn(verifyPlugin)
+        dependsOn(verifyPluginConfiguration)
+        dependsOn(runPluginVerifier)
+    }
 }
 
 
