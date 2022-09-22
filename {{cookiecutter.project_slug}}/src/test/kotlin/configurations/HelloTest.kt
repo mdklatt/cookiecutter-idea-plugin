@@ -96,6 +96,18 @@ class HelloConfigurationFactoryTest : BasePlatformTestCase() {
     fun testName() {
         assertTrue(factory.name.isNotBlank())
     }
+
+    /**
+     * Test the testCreateTemplateConfiguration() method.
+     */
+    fun testCreateTemplateConfiguration() {
+        // Just a smoke test to ensure that the expected RunConfiguration type
+        // is returned.
+        factory.createTemplateConfiguration(project).let {
+            assertTrue(it.subject.isNotBlank())
+        }
+    }
+
 }
 
 /**
