@@ -1,5 +1,6 @@
 // Adapted from <https://github.com/JetBrains/intellij-platform-plugin-template>.
 
+import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.date
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -11,7 +12,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 plugins {
     kotlin("jvm") version("{{ cookiecutter.kotlin_version }}")
     id("org.jetbrains.intellij") version "1.9.0"
-    id("org.jetbrains.changelog") version "1.3.1"
+    id("org.jetbrains.changelog") version "2.0.0"
 }
 
 
@@ -63,7 +64,7 @@ tasks {
         )
 
         // Get the latest available change notes from the changelog file
-        changeNotes.set(changelog.getLatest().toHTML())
+        changeNotes.set(changelog.renderItem(changelog.getLatest(), Changelog.OutputType.HTML))
 
     }
 
