@@ -30,7 +30,7 @@ Install Python requirements for using the template:
 
 .. code-block:: console
 
-  $ python -m pip install --requirement=requirements-dev.txt
+  $ python -m pip install cookiecutter==2.1.0
 
 
 Create a new project directly from the template on `GitHub`_:
