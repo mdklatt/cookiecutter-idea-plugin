@@ -7,7 +7,7 @@
     "project_version": "1.0.0.dev0",
     "author_name": "",
     "author_email": "",
-    "kotlin_version": "1.7.10",
+    "kotlin_version": "1.8.20",
     "gradle_version": "7.5.1",
     "junit_version": "5.9.0",
     "junit_runner": ["Gradle", "JUnit"],
