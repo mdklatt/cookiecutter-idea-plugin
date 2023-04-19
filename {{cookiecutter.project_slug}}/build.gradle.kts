@@ -28,7 +28,7 @@ dependencies {
     // JUnit3 is required for running IDEA platform tests.
     testImplementation(platform("org.junit:junit-bom:{{ cookiecutter.junit_version }}"))
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-    {% if cookiecutter.junit_runner == "JUnit" -%}
+    {% if cookiecutter.junit_runner | lower == "yes" -%}
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     {%- endif %}
 }
@@ -91,7 +91,7 @@ tasks {
     }
 
 	test {
-        {% if cookiecutter.junit_runner == "JUnit" -%}
+        {% if cookiecutter.junit_runner | lower == "yes" -%}
         useJUnitPlatform()  // use the JUnit test runner instead of Gradle
         {%- endif %}
     }

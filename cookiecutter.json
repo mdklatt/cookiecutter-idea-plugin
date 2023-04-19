@@ -10,6 +10,6 @@
     "kotlin_version": "1.8.20",
     "gradle_version": "8.0.2",
     "junit_version": "5.9.0",
-    "junit_runner": ["Gradle", "JUnit"],
+    "junit_runner": ["yes", "no"],
     "compact_dirs": ["yes", "no"]
 }
