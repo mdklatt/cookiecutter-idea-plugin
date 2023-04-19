@@ -40,12 +40,6 @@ tasks {
         gradleVersion = "{{ cookiecutter.gradle_version }}"
     }
 
-    withType<KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "11"  // required since 2020.3
-        }
-    }
-
     patchPluginXml {
         // https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html#tasks-patchpluginxml
         sinceBuild.set(properties("pluginSinceBuild"))
