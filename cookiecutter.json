@@ -4,7 +4,7 @@
     "maven_group": "",
     "project_slug": "{{ cookiecutter.plugin_name }}",
     "project_url": "",
-    "project_version": "1.0.0.dev0",
+    "project_version": "1.0.0-SNAPSHOT",
     "author_name": "",
     "author_email": "",
     "kotlin_version": "1.8.20",
