@@ -55,7 +55,7 @@ def test_project(project):
     """ Verify that the project was created correctly.
 
     """
-    assert len(list(project.iterdir())) == 12
+    assert len(list(project.iterdir())) == 13
     return
 
 

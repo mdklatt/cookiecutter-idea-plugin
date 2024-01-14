@@ -7,9 +7,9 @@
     "project_version": "1.0.0-SNAPSHOT",
     "author_name": "",
     "author_email": "",
-    "kotlin_version": "1.8.20",
-    "gradle_version": "8.0.2",
-    "junit_version": "5.9.0",
+    "kotlin_version": "1.9.20",
+    "gradle_version": "8.4",
+    "junit_version": "5.10.1",
     "junit_runner": ["yes", "no"],
     "compact_dirs": ["yes", "no"]
 }
