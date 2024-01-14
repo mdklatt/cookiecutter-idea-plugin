@@ -1,1 +1,4 @@
-cookiecutter==2.1.0
+# Requirements for template development.
+pytest>=7.3.2,<8
+
+-r requirements.txt
