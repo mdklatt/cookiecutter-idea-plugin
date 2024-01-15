@@ -3,13 +3,11 @@
  */
 package {{ cookiecutter.plugin_package }}.configurations
 
-import com.intellij.openapi.util.JDOMExternalizerUtil
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
-import com.intellij.util.getOrCreate
+import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import org.jdom.Element
-import org.junit.jupiter.api.Test
 
 
 /**

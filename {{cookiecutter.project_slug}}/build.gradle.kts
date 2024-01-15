@@ -11,7 +11,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     kotlin("jvm") version("{{ cookiecutter.kotlin_version }}")
-    id("org.jetbrains.intellij") version "1.16.0"
+    id("org.jetbrains.intellij") version "1.16.1"
     id("org.jetbrains.changelog") version "2.0.0"
 }
 
