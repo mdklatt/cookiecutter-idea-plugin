@@ -36,6 +36,15 @@ dependencies {
 
 tasks {
 
+    withType<JavaCompile> {
+        sourceCompatibility = properties("javaVersion")
+        targetCompatibility = properties("javaVersion")
+    }
+
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = properties("javaVersion")
+    }
+
     wrapper {
         gradleVersion = "{{ cookiecutter.gradle_version }}"
     }
